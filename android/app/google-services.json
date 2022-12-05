@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "487228785701",
+    "project_id": "west-bank-gsk",
+    "storage_bucket": "west-bank-gsk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487228785701:android:8c867cb396cbdc6c0dabcc",
+        "android_client_info": {
+          "package_name": "com.example.firebase_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "487228785701-d8qv4ue7f70l0jmk87vvg2813rr7eo6m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASROMUb2a7nQqOziQ1lqtYfst0-T7duXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "487228785701-d8qv4ue7f70l0jmk87vvg2813rr7eo6m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
