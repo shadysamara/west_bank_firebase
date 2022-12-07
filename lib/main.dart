@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_app/admin/providers/admin_provider.dart';
 import 'package:firebase_app/app_router/app_router.dart';
 import 'package:firebase_app/data_repositories/auth_helper.dart';
 import 'package:firebase_app/auth/providers/auth_provider.dart';
@@ -52,10 +53,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AuthProvider>(
-      create: (context) {
-        return AuthProvider();
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthProvider>(
+          create: (context) {
+            return AuthProvider();
+          },
+        ),
+        ChangeNotifierProvider<AdminProvider>(
+          create: (context) {
+            return AdminProvider();
+          },
+        ),
+      ],
       child: MaterialApp(
         navigatorKey: AppRouter.appRouter.navigatorKey,
         title: 'Flutter Demo',

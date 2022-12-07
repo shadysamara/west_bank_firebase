@@ -7,35 +7,32 @@ class AuthHelper {
   AuthHelper._();
   static AuthHelper authHelper = AuthHelper._();
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  Future<bool?> signUp(String email, String password) async {
+  Future<String?> signUp(String email, String password) async {
     try {
       UserCredential userCredential = await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
-      return true;
+      return userCredential.user?.uid;
     } on Exception catch (e) {
       AppRouter.appRouter
           .showCustomDialoug('Error in registeration', e.toString());
     }
   }
 
-  Future<bool?> signIn(String email, String password) async {
+  Future<String?> signIn(String email, String password) async {
     try {
       UserCredential userCredential = await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
-      return true;
+      return userCredential.user?.uid;
     } on Exception catch (e) {
       AppRouter.appRouter
           .showCustomDialoug('Error in Authentication', e.toString());
     }
   }
 
-  bool checkUser() {
+  String? checkUser() {
     User? user = firebaseAuth.currentUser;
-    if (user == null) {
-      return false;
-    } else {
-      return true;
-    }
+
+    return user?.uid;
   }
 
   signOut() async {
