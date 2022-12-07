@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:firebase_app/admin/providers/admin_provider.dart';
+import 'package:firebase_app/admin/views/screens/add_category.dart';
+import 'package:firebase_app/admin/views/screens/display_categories.dart';
 import 'package:firebase_app/app_router/app_router.dart';
 import 'package:firebase_app/data_repositories/auth_helper.dart';
 import 'package:firebase_app/auth/providers/auth_provider.dart';
@@ -74,7 +76,7 @@ class MyApp extends StatelessWidget {
 
           primarySwatch: Colors.blue,
         ),
-        home: SplachScreen(),
+        home: AllCategoriesScreen(),
       ),
     );
   }

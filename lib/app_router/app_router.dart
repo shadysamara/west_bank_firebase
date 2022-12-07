@@ -22,9 +22,37 @@ class AppRouter {
         });
   }
 
+  showLoadingDialoug() {
+    showDialog(
+      barrierDismissible: false,
+      context: navigatorKey.currentContext!,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: new Row(
+            children: [
+              CircularProgressIndicator(),
+              Container(
+                  margin: EdgeInsets.only(left: 7), child: Text("Loading...")),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  hideDialoug() {
+    navigatorKey.currentState!.pop();
+  }
+
   goToWidgetAndReplace(Widget widget) {
     navigatorKey.currentState!
         .pushReplacement(MaterialPageRoute(builder: (context) {
+      return widget;
+    }));
+  }
+
+  goToWidget(Widget widget) {
+    navigatorKey.currentState!.push(MaterialPageRoute(builder: (context) {
       return widget;
     }));
   }
