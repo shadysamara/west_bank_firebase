@@ -1,5 +1,11 @@
+import 'dart:developer';
+
 import 'package:firebase_app/admin/models/category.dart';
+import 'package:firebase_app/admin/providers/admin_provider.dart';
+import 'package:firebase_app/admin/views/screens/add_product.dart';
+import 'package:firebase_app/app_router/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CategoryWidget extends StatelessWidget {
   Category category;
@@ -17,13 +23,16 @@ class CategoryWidget extends StatelessWidget {
         children: [
           Stack(
             children: [
-              SizedBox(
-                  width: double.infinity,
-                  height: 170,
-                  child: Image.network(
-                    category.imageUrl,
-                    fit: BoxFit.cover,
-                  )),
+              ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(13)),
+                child: SizedBox(
+                    width: double.infinity,
+                    height: 170,
+                    child: Image.network(
+                      category.imageUrl,
+                      fit: BoxFit.cover,
+                    )),
+              ),
               Positioned(
                   right: 15,
                   top: 10,
@@ -33,7 +42,11 @@ class CategoryWidget extends StatelessWidget {
                         radius: 20,
                         backgroundColor: Colors.white,
                         child: IconButton(
-                            onPressed: () {}, icon: Icon(Icons.delete)),
+                            onPressed: () {
+                              Provider.of<AdminProvider>(context, listen: false)
+                                  .deleteCategory(category);
+                            },
+                            icon: Icon(Icons.delete)),
                       ),
                       SizedBox(
                         height: 10,
@@ -42,7 +55,11 @@ class CategoryWidget extends StatelessWidget {
                         radius: 20,
                         backgroundColor: Colors.white,
                         child: IconButton(
-                            onPressed: () {}, icon: Icon(Icons.edit)),
+                            onPressed: () {
+                              Provider.of<AdminProvider>(context, listen: false)
+                                  .goToEditCategoryPage(category);
+                            },
+                            icon: Icon(Icons.edit)),
                       ),
                     ],
                   ))
@@ -60,6 +77,15 @@ class CategoryWidget extends StatelessWidget {
                     'English Category' + ': ' + category.nameEn,
                   ),
                 ]),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            width: double.infinity,
+            child: ElevatedButton(
+                onPressed: () {
+                  AppRouter.appRouter.goToWidget(AddNewProduct(category.id!));
+                },
+                child: Text('Add Products')),
           )
         ],
       ),

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_app/admin/models/category.dart';
+import 'package:firebase_app/admin/models/product.dart';
 import 'package:firebase_app/models/app_user.dart';
 
 class FirestoreHelper {
@@ -53,7 +54,9 @@ class FirestoreHelper {
       QuerySnapshot<Map<String, dynamic>> catsSnapshot =
           await firestore.collection('categories').get();
       List<Category> categories = catsSnapshot.docs.map((doc) {
-        return Category.fromMap(doc.data());
+        Category category = Category.fromMap(doc.data());
+        category.id = doc.id;
+        return category;
       }).toList();
       return categories;
     } on Exception catch (e) {
@@ -69,7 +72,30 @@ class FirestoreHelper {
           .update(category.toMap());
       return true;
     } on Exception catch (e) {
+      log(e.toString());
       return false;
     }
   }
+
+  /// products functions
+  Future<String?> addNewProduct(Product product) async {
+    try {
+      DocumentReference<Map<String, dynamic>> documentReference =
+          await firestore
+              .collection('categories')
+              .doc(product.catId)
+              .collection('products')
+              .add(product.toMap());
+      return documentReference.id;
+    } on Exception catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<List<Product>?> getAllProducts(String catId) async {
+    firestore.collection('categories').doc(catId).collection('products').get();
+  }
+
+  Future<bool?> deleteProduct(Product product) async {}
+  Future<bool?> updateProduct(Product product) async {}
 }
