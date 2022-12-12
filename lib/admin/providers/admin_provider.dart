@@ -3,16 +3,19 @@ import 'dart:io';
 
 import 'package:firebase_app/admin/models/category.dart';
 import 'package:firebase_app/admin/models/product.dart';
+import 'package:firebase_app/admin/models/slider.dart';
+import 'package:firebase_app/admin/views/screens/add_new_slider.dart';
 import 'package:firebase_app/admin/views/screens/edit_category.dart';
 import 'package:firebase_app/app_router/app_router.dart';
 import 'package:firebase_app/data_repositories/firestore_helper.dart';
 import 'package:firebase_app/data_repositories/storage_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Slider;
 import 'package:image_picker/image_picker.dart';
 
 class AdminProvider extends ChangeNotifier {
   AdminProvider() {
     getAllCategories();
+    getAllSliders();
   }
   String? requiredValidation(String? content) {
     if (content == null || content.isEmpty) {
@@ -71,6 +74,7 @@ class AdminProvider extends ChangeNotifier {
   // get cateogies
   List<Category>? allCategories;
   List<Product>? allProducts;
+  List<Slider>? allSliders;
   getAllCategories() async {
     allCategories = await FirestoreHelper.firestoreHelper.getAllCategories();
     notifyListeners();
@@ -126,6 +130,8 @@ class AdminProvider extends ChangeNotifier {
     }
   }
 
+  TextEditingController sliderTitleController = TextEditingController();
+  TextEditingController sliderUrlController = TextEditingController();
   TextEditingController productNameController = TextEditingController();
   TextEditingController productDescriptionController = TextEditingController();
   TextEditingController productPriceController = TextEditingController();
@@ -159,6 +165,51 @@ class AdminProvider extends ChangeNotifier {
           AppRouter.appRouter
               .showCustomDialoug('Success', 'Your Product has been added');
         }
+      }
+    } else {
+      AppRouter.appRouter
+          .showCustomDialoug('Error', 'You have to pick image first');
+    }
+  }
+
+  getAllProducts(String catId) async {
+    allProducts = null;
+    notifyListeners();
+    List<Product>? products =
+        await FirestoreHelper.firestoreHelper.getAllProducts(catId);
+
+    allProducts = products;
+    notifyListeners();
+  }
+
+  getAllSliders() async {
+    allSliders = await FirestoreHelper.firestoreHelper.getAllSliders();
+  }
+
+  AddNewSlider() async {
+    if (imageFile != null) {
+      AppRouter.appRouter.showLoadingDialoug();
+      String imageUrl = await StorageHelper.storageHelper
+          .uploadNewImage("Slider_images", imageFile!);
+      Slider slider = Slider(
+          imageUrl: imageUrl,
+          title: sliderTitleController.text,
+          url: sliderUrlController.text);
+
+      String? id = await FirestoreHelper.firestoreHelper.addNewSlider(slider);
+
+      AppRouter.appRouter.hideDialoug();
+      if (id != null) {
+        slider.id = id;
+        allSliders?.add(slider);
+        notifyListeners();
+        sliderTitleController.clear();
+        sliderUrlController.clear();
+
+        imageFile = null;
+        notifyListeners();
+        AppRouter.appRouter
+            .showCustomDialoug('Success', 'Your Slider has been added');
       }
     } else {
       AppRouter.appRouter

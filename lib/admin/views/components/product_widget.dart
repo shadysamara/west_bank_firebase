@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:firebase_app/admin/models/category.dart';
+import 'package:firebase_app/admin/models/product.dart';
 import 'package:firebase_app/admin/providers/admin_provider.dart';
 import 'package:firebase_app/admin/views/screens/add_product.dart';
 import 'package:firebase_app/admin/views/screens/display_products.dart';
@@ -8,18 +9,14 @@ import 'package:firebase_app/app_router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CategoryWidget extends StatelessWidget {
-  Category category;
-  CategoryWidget(this.category);
+class ProductWidget extends StatelessWidget {
+  Product product;
+  ProductWidget(this.product);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return InkWell(
-      onTap: () {
-        Provider.of<AdminProvider>(context, listen: false)
-            .getAllProducts(category.id!);
-        AppRouter.appRouter.goToWidget(AllProductsScreen());
-      },
+      onTap: () {},
       child: Container(
         margin: EdgeInsets.all(5),
         decoration: BoxDecoration(
@@ -36,7 +33,7 @@ class CategoryWidget extends StatelessWidget {
                       width: double.infinity,
                       height: 170,
                       child: Image.network(
-                        category.imageUrl,
+                        product.imageUrl,
                         fit: BoxFit.cover,
                       )),
                 ),
@@ -49,12 +46,7 @@ class CategoryWidget extends StatelessWidget {
                           radius: 20,
                           backgroundColor: Colors.white,
                           child: IconButton(
-                              onPressed: () {
-                                Provider.of<AdminProvider>(context,
-                                        listen: false)
-                                    .deleteCategory(category);
-                              },
-                              icon: Icon(Icons.delete)),
+                              onPressed: () {}, icon: Icon(Icons.delete)),
                         ),
                         SizedBox(
                           height: 10,
@@ -63,12 +55,7 @@ class CategoryWidget extends StatelessWidget {
                           radius: 20,
                           backgroundColor: Colors.white,
                           child: IconButton(
-                              onPressed: () {
-                                Provider.of<AdminProvider>(context,
-                                        listen: false)
-                                    .goToEditCategoryPage(category);
-                              },
-                              icon: Icon(Icons.edit)),
+                              onPressed: () {}, icon: Icon(Icons.edit)),
                         ),
                       ],
                     ))
@@ -80,10 +67,10 @@ class CategoryWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'Arabic Category' + ': ' + category.nameAr,
+                      'Product Name' + ': ' + product.name,
                     ),
                     Text(
-                      'English Category' + ': ' + category.nameEn,
+                      'Product Price' + ': ' + product.price,
                     ),
                   ]),
             ),

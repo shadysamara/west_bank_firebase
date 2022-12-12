@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_app/admin/models/category.dart';
 import 'package:firebase_app/admin/models/product.dart';
+import 'package:firebase_app/admin/models/slider.dart';
 import 'package:firebase_app/models/app_user.dart';
 
 class FirestoreHelper {
@@ -93,9 +94,37 @@ class FirestoreHelper {
   }
 
   Future<List<Product>?> getAllProducts(String catId) async {
-    firestore.collection('categories').doc(catId).collection('products').get();
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await firestore
+        .collection('categories')
+        .doc(catId)
+        .collection('products')
+        .get();
+    return querySnapshot.docs.map((e) {
+      Product product = Product.fromMap(e.data());
+      product.id = e.id;
+      return product;
+    }).toList();
   }
 
   Future<bool?> deleteProduct(Product product) async {}
   Future<bool?> updateProduct(Product product) async {}
+  Future<String?> addNewSlider(Slider slider) async {
+    try {
+      DocumentReference<Map<String, dynamic>> documentReference =
+          await firestore.collection('sliders').add(slider.toMap());
+      return documentReference.id;
+    } on Exception catch (e) {
+      return null;
+    }
+  }
+
+  Future<List<Slider>?> getAllSliders() async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await firestore.collection('sliders').get();
+    return querySnapshot.docs.map((e) {
+      Slider slider = Slider.fromMap(e.data());
+      slider.id = e.id;
+      return slider;
+    }).toList();
+  }
 }
