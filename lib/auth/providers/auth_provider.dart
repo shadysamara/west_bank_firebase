@@ -2,12 +2,14 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_app/app_router/app_router.dart';
+import 'package:firebase_app/auth/models/app_user.dart';
+import 'package:firebase_app/customer/views/customer_main_page.dart';
 import 'package:firebase_app/data_repositories/auth_helper.dart';
 import 'package:firebase_app/auth/screens/main_screen.dart';
 import 'package:firebase_app/auth/screens/sign_in_screen.dart';
 import 'package:firebase_app/data_repositories/firestore_helper.dart';
 import 'package:firebase_app/data_repositories/storage_helper.dart';
-import 'package:firebase_app/models/app_user.dart';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:string_validator/string_validator.dart';
@@ -69,7 +71,7 @@ class AuthProvider extends ChangeNotifier {
         loggedUser =
             await FirestoreHelper.firestoreHelper.getUserFromFirestore(userId);
         notifyListeners();
-        AppRouter.appRouter.goToWidgetAndReplace(MainScreen());
+        AppRouter.appRouter.goToWidgetAndReplace(CustomerMainPage());
       }
     }
   }
@@ -84,7 +86,7 @@ class AuthProvider extends ChangeNotifier {
             email: registerEmailController.text,
             userName: userNameController.text,
             phoneNumber: phoneController.text));
-        // AppRouter.appRouter.goToWidgetAndReplace(MainScreen());
+        AppRouter.appRouter.goToWidgetAndReplace(CustomerMainPage());
       }
     }
   }
@@ -100,7 +102,7 @@ class AuthProvider extends ChangeNotifier {
 
     if (userId != null) {
       getUser(userId);
-      AppRouter.appRouter.goToWidgetAndReplace(MainScreen());
+      AppRouter.appRouter.goToWidgetAndReplace(CustomerMainPage());
     } else {
       AppRouter.appRouter.goToWidgetAndReplace(SignInScreen());
     }

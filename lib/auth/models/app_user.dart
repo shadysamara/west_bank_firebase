@@ -6,12 +6,14 @@ class AppUser {
   String? imageUrl;
   String userName;
   String phoneNumber;
+  bool isAdmin;
   AppUser(
       {required this.email,
       required this.userName,
       required this.phoneNumber,
       this.id,
-      this.imageUrl});
+      this.imageUrl,
+      this.isAdmin = false});
 
   Map<String, dynamic> toMap() {
     return {
@@ -24,11 +26,11 @@ class AppUser {
 
   factory AppUser.fromMap(Map<String, dynamic> map) {
     return AppUser(
-      email: map['email'] ?? '',
-      userName: map['userName'] ?? '',
-      phoneNumber: map['phoneNumber'] ?? '',
-      imageUrl: map['imageUrl'],
-    );
+        email: map['email'] ?? '',
+        userName: map['userName'] ?? '',
+        phoneNumber: map['phoneNumber'] ?? '',
+        imageUrl: map['imageUrl'],
+        isAdmin: map['isAdmin'] ?? false);
   }
 
   String toJson() => json.encode(toMap());

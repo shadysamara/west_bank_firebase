@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_app/admin/models/category.dart';
 import 'package:firebase_app/admin/models/product.dart';
 import 'package:firebase_app/admin/models/slider.dart';
-import 'package:firebase_app/models/app_user.dart';
+import 'package:firebase_app/auth/models/app_user.dart';
 
 class FirestoreHelper {
   FirestoreHelper._();
