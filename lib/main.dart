@@ -5,6 +5,7 @@ import 'package:firebase_app/admin/views/screens/add_category.dart';
 import 'package:firebase_app/admin/views/screens/display_categories.dart';
 import 'package:firebase_app/admin/views/screens/main_admin_screen.dart';
 import 'package:firebase_app/app_router/app_router.dart';
+import 'package:firebase_app/custom_map/custom_map.dart';
 import 'package:firebase_app/customer/views/customer_main_page.dart';
 import 'package:firebase_app/data_repositories/auth_helper.dart';
 import 'package:firebase_app/auth/providers/auth_provider.dart';
@@ -78,7 +79,7 @@ class MyApp extends StatelessWidget {
 
           primarySwatch: Colors.blue,
         ),
-        home: SplachScreen(),
+        home: CustomMap(),
       ),
     );
   }
